@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOKOM Creator Tools Review Demo</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f4eee5;
+    --paper: rgba(255, 252, 246, 0.94);
+    --paper-strong: #fffdf8;
+    --text: #16222d;
+    --muted: #63707a;
+    --line: rgba(22, 34, 45, 0.12);
+    --accent: #146b78;
+    --accent-strong: #0f4654;
+    --warm: #c76f3a;
+    --good: #1b8b52;
+    --soft-green: rgba(27, 139, 82, 0.1);
+    --soft-accent: rgba(20, 107, 120, 0.09);
+    --shadow: 0 24px 50px rgba(22, 34, 45, 0.08);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    background:
+      radial-gradient(circle at top left, rgba(20, 107, 120, 0.15), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(199, 111, 58, 0.14), transparent 24%),
+      linear-gradient(180deg, #f7f2e9 0%, var(--bg) 100%);
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 26px 20px 48px;
+  }
+
+  .topbar,
+  .hero,
+  .grid,
+  .footer {
+    display: grid;
+    gap: 22px;
+  }
+
+  .topbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    margin-bottom: 22px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .mark {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #123d6a 0%, #146b78 100%);
+    color: #f7f2e9;
+    display: grid;
+    place-items: center;
+    font: 700 28px/1 "Trebuchet MS", "Gill Sans", sans-serif;
+    box-shadow: 0 14px 26px rgba(18, 61, 106, 0.18);
+  }
+
+  .brand h1,
+  .brand p,
+  .nav a,
+  .eyebrow,
+  .pill,
+  .section-tag,
+  button,
+  input,
+  .meta-title,
+  .step-index {
+    font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+  }
+
+  .brand h1,
+  .brand p {
+    margin: 0;
+  }
+
+  .brand h1 {
+    font: 700 24px/1.1 "Trebuchet MS", "Gill Sans", sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  .brand p {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav a {
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.64);
+    font-size: 14px;
+  }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    align-items: stretch;
+  }
+
+  .hero-main,
+  .hero-side,
+  .section {
+    padding: 30px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--soft-accent);
+    color: var(--accent-strong);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h2,
+  h3 {
+    margin: 0;
+    font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-main h2 {
+    margin-bottom: 16px;
+    font-size: clamp(38px, 6vw, 60px);
+    line-height: 0.96;
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px;
+  }
+
+  .button,
+  button,
+  input[type="file"]::file-selector-button {
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    min-height: 46px;
+    padding: 0 18px;
+    font: 700 14px/1 "Trebuchet MS", "Gill Sans", sans-serif;
+  }
+
+  .button,
+  button.primary,
+  input[type="file"]::file-selector-button {
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent) 0%, #184d83 100%);
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  button.secondary {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.76);
+    border: 1px solid var(--line);
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  .hero-side {
+    display: grid;
+    gap: 16px;
+    align-content: center;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--soft-green);
+    color: #155036;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .pill::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--good);
+  }
+
+  .meta-box {
+    padding: 16px 18px;
+    border-radius: 20px;
+    background: var(--paper-strong);
+    border: 1px solid rgba(22, 34, 45, 0.08);
+  }
+
+  .meta-title {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  code {
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    margin-top: 22px;
+  }
+
+  .section {
+    display: grid;
+    gap: 18px;
+  }
+
+  .section-tag {
+    color: var(--warm);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .step-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    padding: 18px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.66);
+    border: 1px solid rgba(22, 34, 45, 0.08);
+    transition: 180ms ease;
+  }
+
+  .step.active {
+    border-color: rgba(20, 107, 120, 0.35);
+    background: rgba(20, 107, 120, 0.08);
+  }
+
+  .step.done {
+    border-color: rgba(27, 139, 82, 0.25);
+    background: rgba(27, 139, 82, 0.08);
+  }
+
+  .step-index {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: linear-gradient(135deg, var(--warm) 0%, #b5472c 100%);
+    font-weight: 700;
+  }
+
+  .step.done .step-index {
+    background: linear-gradient(135deg, #1b8b52 0%, #146b78 100%);
+  }
+
+  .step strong {
+    display: block;
+    margin-bottom: 6px;
+    font: 700 18px/1.2 "Trebuchet MS", "Gill Sans", sans-serif;
+  }
+
+  .step .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 18px;
+    border: 1px dashed rgba(20, 107, 120, 0.28);
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--text);
+  }
+
+  .status,
+  .file-meta,
+  .upload-progress,
+  .result-box {
+    padding: 16px 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(22, 34, 45, 0.08);
+    background: rgba(255, 255, 255, 0.74);
+  }
+
+  .status.good,
+  .result-box.good {
+    background: rgba(27, 139, 82, 0.09);
+    border-color: rgba(27, 139, 82, 0.24);
+  }
+
+  .status.warn {
+    background: rgba(199, 111, 58, 0.1);
+    border-color: rgba(199, 111, 58, 0.2);
+  }
+
+  .status strong,
+  .result-box strong {
+    display: block;
+    margin-bottom: 6px;
+    font: 700 16px/1.2 "Trebuchet MS", "Gill Sans", sans-serif;
+  }
+
+  .progress-track {
+    height: 14px;
+    margin-top: 12px;
+    border-radius: 999px;
+    background: rgba(22, 34, 45, 0.08);
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--accent) 0%, #1b8b52 100%);
+    transition: width 220ms linear;
+  }
+
+  iframe {
+    width: 100%;
+    min-height: 320px;
+    border: 1px solid rgba(22, 34, 45, 0.12);
+    border-radius: 22px;
+    background: #fff;
+  }
+
+  .checklist,
+  .script-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+
+  .checklist li,
+  .script-list li {
+    position: relative;
+    padding-left: 18px;
+    line-height: 1.6;
+  }
+
+  .checklist li::before,
+  .script-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.78em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-50%);
+  }
+
+  .footer {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    margin-top: 22px;
+    padding: 20px 24px;
+  }
+
+  @media (max-width: 940px) {
+    .hero,
+    .grid,
+    .footer,
+    .topbar {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page {
+      padding: 18px 12px 36px;
+    }
+
+    .hero-main,
+    .hero-side,
+    .section,
+    .footer {
+      padding: 22px;
+    }
+
+    .step {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">M</div>
+      <div>
+        <h1>MOKOM Creator Tools Review Demo</h1>
+        <p>Sandbox walkthrough for TikTok Login Kit and Content Posting API review</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="/">Website</a>
+      <a href="/callback/">Callback</a>
+      <a href="/terms.html/">Terms</a>
+      <a href="/privacy.html/">Privacy</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <article class="card hero-main">
+      <span class="eyebrow">Review Video Recording Page</span>
+      <h2>Record this page to satisfy the TikTok app review video requirement.</h2>
+      <p>
+        This page demonstrates the submitted web integration on the same public domain used
+        in TikTok Developer Portal. It covers Login Kit authorization, the verified callback
+        URL, local video file selection, upload simulation, and a direct publish confirmation.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href="#steps">Start the walkthrough</a>
+        <a class="button" href="/callback/?code=review_demo_code&scope=user.info.basic&state=sandbox_review" target="_blank" rel="noreferrer">Open callback URL</a>
+      </div>
+    </article>
+
+    <aside class="card hero-side">
+      <span class="pill">Sandbox review mode ready</span>
+      <div class="meta-box">
+        <span class="meta-title">Website URL</span>
+        <code>https://mk-francis.github.io/</code>
+      </div>
+      <div class="meta-box">
+        <span class="meta-title">Redirect URI</span>
+        <code>https://mk-francis.github.io/callback/</code>
+      </div>
+      <div class="meta-box">
+        <span class="meta-title">Requested scopes</span>
+        <code>user.info.basic</code><br>
+        <code>video.upload</code><br>
+        <code>video.publish</code>
+      </div>
+    </aside>
+  </section>
+
+  <section class="grid">
+    <article id="steps" class="card section">
+      <span class="section-tag">End-to-End Flow</span>
+      <h3>Interactive review walkthrough</h3>
+      <p>
+        Record the following actions in one take. The page is designed so you can complete
+        the entire sequence in under one minute.
+      </p>
+
+      <div class="step-list">
+        <section class="step active" id="step-login">
+          <div class="step-index">1</div>
+          <div>
+            <strong>Authorize with TikTok Login Kit</strong>
+            <p>
+              Click the login button to simulate sandbox authorization for the requested
+              <code>user.info.basic</code> scope.
+            </p>
+            <div class="actions">
+              <button class="primary" id="loginButton" type="button">Login With TikTok</button>
+            </div>
+            <div class="status warn" id="loginStatus">
+              <strong>Waiting for authorization</strong>
+              Start the recording on this page, then click the login button.
+            </div>
+          </div>
+        </section>
+
+        <section class="step" id="step-callback">
+          <div class="step-index">2</div>
+          <div>
+            <strong>Show the verified callback URL</strong>
+            <p>
+              The embedded frame below loads the actual callback page on this domain with a
+              sample authorization code and state value.
+            </p>
+            <iframe id="callbackFrame" title="TikTok callback preview" src="/callback/"></iframe>
+          </div>
+        </section>
+
+        <section class="step" id="step-file">
+          <div class="step-index">3</div>
+          <div>
+            <strong>Select a local video file</strong>
+            <p>
+              Choose any short <code>.mp4</code> or <code>.mov</code> file from your computer
+              to demonstrate local file upload before publishing.
+            </p>
+            <div class="actions">
+              <input id="videoInput" type="file" accept="video/mp4,video/quicktime,video/*">
+            </div>
+            <div class="file-meta" id="fileMeta">
+              No file selected yet.
+            </div>
+          </div>
+        </section>
+
+        <section class="step" id="step-upload">
+          <div class="step-index">4</div>
+          <div>
+            <strong>Upload with <code>video.upload</code></strong>
+            <p>
+              After file selection, run the upload simulation to show the pre-publish step
+              used by Content Posting API Direct Post.
+            </p>
+            <div class="actions">
+              <button class="primary" id="uploadButton" type="button" disabled>Upload Video</button>
+            </div>
+            <div class="upload-progress" id="uploadStatus">
+              <strong>Upload not started</strong>
+              Select a local file first.
+              <div class="progress-track">
+                <div class="progress-fill" id="uploadBar"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" id="step-publish">
+          <div class="step-index">5</div>
+          <div>
+            <strong>Publish with <code>video.publish</code></strong>
+            <p>
+              Once upload completes, publish the video to simulate a Direct Post request to
+              the authorized TikTok account.
+            </p>
+            <div class="actions">
+              <button class="primary" id="publishButton" type="button" disabled>Publish To TikTok</button>
+              <button class="secondary" id="resetButton" type="button">Reset Demo</button>
+            </div>
+            <div class="result-box" id="publishStatus">
+              <strong>Publish pending</strong>
+              Complete the upload step to enable publishing.
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+
+    <aside class="card section">
+      <span class="section-tag">What To Record</span>
+      <h3>Recommended script for the review video</h3>
+      <ul class="script-list">
+        <li>Open <code>https://mk-francis.github.io/review-demo/</code> in the browser.</li>
+        <li>Show the URL bar so the reviewer can see the domain matches the submitted website URL.</li>
+        <li>Click <strong>Login With TikTok</strong> and wait for the callback frame to load.</li>
+        <li>Select a local video file with the file picker.</li>
+        <li>Click <strong>Upload Video</strong> and let the progress bar finish.</li>
+        <li>Click <strong>Publish To TikTok</strong> and keep the success state visible for two or three seconds.</li>
+      </ul>
+
+      <div class="status good">
+        <strong>Why this works</strong>
+        The reviewer sees the same public domain, the configured callback URL, and the exact
+        scopes and product flow you submitted in TikTok Developer Portal.
+      </div>
+
+      <div class="meta-box">
+        <span class="meta-title">Suggested video length</span>
+        <p>30 to 60 seconds, one continuous screen recording, no voice-over required.</p>
+      </div>
+
+      <div class="meta-box">
+        <span class="meta-title">Before uploading the demo video</span>
+        <ul class="checklist">
+          <li>Keep only the requested products and scopes in the recording.</li>
+          <li>Use the same domain shown in the TikTok submission form.</li>
+          <li>Do not show unrelated apps, terminal windows, or personal notifications.</li>
+        </ul>
+      </div>
+    </aside>
+  </section>
+
+  <footer class="card footer">
+    <p>Official review demo for MOKOM Creator Tools. Contact: <a href="mailto:mokom@bigmk.com">mokom@bigmk.com</a></p>
+    <p><a href="/">Back to website</a></p>
+  </footer>
+</div>
+
+<script>
+  const stepLogin = document.getElementById("step-login");
+  const stepCallback = document.getElementById("step-callback");
+  const stepFile = document.getElementById("step-file");
+  const stepUpload = document.getElementById("step-upload");
+  const stepPublish = document.getElementById("step-publish");
+
+  const loginButton = document.getElementById("loginButton");
+  const uploadButton = document.getElementById("uploadButton");
+  const publishButton = document.getElementById("publishButton");
+  const resetButton = document.getElementById("resetButton");
+  const loginStatus = document.getElementById("loginStatus");
+  const callbackFrame = document.getElementById("callbackFrame");
+  const videoInput = document.getElementById("videoInput");
+  const fileMeta = document.getElementById("fileMeta");
+  const uploadStatus = document.getElementById("uploadStatus");
+  const uploadBar = document.getElementById("uploadBar");
+  const publishStatus = document.getElementById("publishStatus");
+
+  let uploadTimer = null;
+  let uploadProgress = 0;
+  let loginDone = false;
+  let fileSelected = false;
+  let uploadDone = false;
+
+  function activate(step) {
+    [stepLogin, stepCallback, stepFile, stepUpload, stepPublish].forEach((node) => {
+      node.classList.remove("active");
+    });
+    step.classList.add("active");
+  }
+
+  function markDone(step) {
+    step.classList.add("done");
+    step.classList.remove("active");
+  }
+
+  function resetUploadState() {
+    if (uploadTimer) {
+      clearInterval(uploadTimer);
+      uploadTimer = null;
+    }
+    uploadProgress = 0;
+    uploadDone = false;
+    uploadBar.style.width = "0%";
+    uploadStatus.innerHTML = "<strong>Upload not started</strong>Select a local file first.<div class=\"progress-track\"><div class=\"progress-fill\" id=\"uploadBar\"></div></div>";
+  }
+
+  loginButton.addEventListener("click", () => {
+    loginDone = true;
+    markDone(stepLogin);
+    activate(stepCallback);
+    loginStatus.className = "status good";
+    loginStatus.innerHTML = "<strong>Authorization completed</strong>Sandbox login approved for <code>user.info.basic</code>.";
+    callbackFrame.src = "/callback/?code=review_demo_code_20260307&scope=user.info.basic&state=sandbox_review";
+  });
+
+  callbackFrame.addEventListener("load", () => {
+    if (!loginDone) {
+      return;
+    }
+    markDone(stepCallback);
+    activate(stepFile);
+  });
+
+  videoInput.addEventListener("change", () => {
+    const file = videoInput.files && videoInput.files[0];
+    fileSelected = Boolean(file);
+    uploadButton.disabled = !fileSelected;
+    publishButton.disabled = true;
+    uploadDone = false;
+    uploadBar.style.width = "0%";
+    if (!file) {
+      fileMeta.textContent = "No file selected yet.";
+      return;
+    }
+
+    markDone(stepFile);
+    activate(stepUpload);
+    const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+    fileMeta.innerHTML = "<strong>Selected file</strong><br><code>" + file.name + "</code><br>" + sizeMb + " MB";
+    uploadStatus.innerHTML = "<strong>Ready to upload</strong>Click the upload button to simulate the <code>video.upload</code> request.<div class=\"progress-track\"><div class=\"progress-fill\" id=\"uploadBar\"></div></div>";
+  });
+
+  uploadButton.addEventListener("click", () => {
+    if (!fileSelected) {
+      return;
+    }
+
+    uploadButton.disabled = true;
+    uploadStatus.innerHTML = "<strong>Uploading video file</strong>Sending file to TikTok Content Posting API.<div class=\"progress-track\"><div class=\"progress-fill\" id=\"uploadBar\"></div></div>";
+    const bar = uploadStatus.querySelector(".progress-fill");
+    uploadProgress = 0;
+    uploadTimer = setInterval(() => {
+      uploadProgress += 8;
+      bar.style.width = Math.min(uploadProgress, 100) + "%";
+      if (uploadProgress >= 100) {
+        clearInterval(uploadTimer);
+        uploadDone = true;
+        markDone(stepUpload);
+        activate(stepPublish);
+        publishButton.disabled = false;
+        uploadStatus.className = "upload-progress status good";
+        uploadStatus.innerHTML = "<strong>Upload complete</strong>Video file uploaded successfully. Ready for <code>video.publish</code>.";
+      }
+    }, 180);
+  });
+
+  publishButton.addEventListener("click", () => {
+    if (!uploadDone) {
+      return;
+    }
+
+    publishButton.disabled = true;
+    markDone(stepPublish);
+    publishStatus.className = "result-box good";
+    publishStatus.innerHTML = "<strong>Publish success</strong>Direct Post completed in sandbox review mode. The video is ready for TikTok review evidence.";
+  });
+
+  resetButton.addEventListener("click", () => {
+    if (uploadTimer) {
+      clearInterval(uploadTimer);
+      uploadTimer = null;
+    }
+    loginDone = false;
+    fileSelected = false;
+    uploadDone = false;
+    uploadProgress = 0;
+    [stepLogin, stepCallback, stepFile, stepUpload, stepPublish].forEach((node) => {
+      node.classList.remove("done", "active");
+    });
+    activate(stepLogin);
+    loginStatus.className = "status warn";
+    loginStatus.innerHTML = "<strong>Waiting for authorization</strong>Start the recording on this page, then click the login button.";
+    callbackFrame.src = "/callback/";
+    videoInput.value = "";
+    fileMeta.textContent = "No file selected yet.";
+    uploadButton.disabled = true;
+    publishButton.disabled = true;
+    uploadStatus.className = "upload-progress";
+    uploadStatus.innerHTML = "<strong>Upload not started</strong>Select a local file first.<div class=\"progress-track\"><div class=\"progress-fill\" style=\"width:0%\"></div></div>";
+    publishStatus.className = "result-box";
+    publishStatus.innerHTML = "<strong>Publish pending</strong>Complete the upload step to enable publishing.";
+  });
+</script>
+</body>
+</html>
