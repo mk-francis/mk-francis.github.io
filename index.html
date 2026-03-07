@@ -1,10 +1,553 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="tiktok-developers-site-verification" content="sg0PXwSyd8pPozglLchpY0zEFHcTOJab">
-<meta http-equiv="refresh" content="0; url=terms.html">
+<title>MOKOM Creator Tools</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f3efe6;
+    --panel: rgba(255, 252, 246, 0.92);
+    --panel-strong: #fffdf8;
+    --text: #17232f;
+    --muted: #5e6972;
+    --line: rgba(23, 35, 47, 0.14);
+    --accent: #0f6a78;
+    --accent-strong: #0b4753;
+    --sand: #e8d9c0;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--text);
+    background:
+      radial-gradient(circle at top left, rgba(15, 106, 120, 0.16), transparent 32%),
+      radial-gradient(circle at bottom right, rgba(221, 167, 83, 0.18), transparent 28%),
+      linear-gradient(180deg, #f7f3eb 0%, var(--bg) 100%);
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 28px 20px 56px;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .mark {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #123d6a 0%, #0f6a78 100%);
+    color: #f7f3eb;
+    display: grid;
+    place-items: center;
+    font: 700 28px/1 "Trebuchet MS", "Gill Sans", sans-serif;
+    box-shadow: 0 12px 24px rgba(18, 61, 106, 0.18);
+  }
+
+  .brand h1,
+  .brand p {
+    margin: 0;
+  }
+
+  .brand h1 {
+    font: 700 24px/1.1 "Trebuchet MS", "Gill Sans", sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  .brand p,
+  .nav a,
+  .eyebrow,
+  .meta-label {
+    font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+  }
+
+  .brand p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav a {
+    text-decoration: none;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.58);
+    font-size: 14px;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 18px 40px rgba(23, 35, 47, 0.08);
+  }
+
+  .hero-copy {
+    padding: 34px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(15, 106, 120, 0.1);
+    color: var(--accent-strong);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hero h2 {
+    margin: 0 0 16px;
+    font: 700 clamp(38px, 6vw, 64px)/0.96 "Trebuchet MS", "Gill Sans", sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  .hero p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1.65;
+  }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .button,
+  .ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font: 700 14px/1 "Trebuchet MS", "Gill Sans", sans-serif;
+  }
+
+  .button {
+    background: linear-gradient(135deg, var(--accent) 0%, #184a84 100%);
+    color: #fff;
+  }
+
+  .ghost {
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.66);
+  }
+
+  .hero-panel {
+    padding: 28px;
+    display: grid;
+    gap: 18px;
+    align-content: center;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(12, 108, 64, 0.1);
+    color: #145034;
+    font: 700 13px/1 "Trebuchet MS", "Gill Sans", sans-serif;
+  }
+
+  .status-pill::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #1c9858;
+  }
+
+  .metric-grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .metric {
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: var(--panel-strong);
+    border: 1px solid rgba(23, 35, 47, 0.08);
+  }
+
+  .metric-label {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font: 700 12px/1.2 "Trebuchet MS", "Gill Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .metric strong {
+    display: block;
+    font: 700 24px/1.15 "Trebuchet MS", "Gill Sans", sans-serif;
+  }
+
+  .metric span {
+    display: block;
+    margin-top: 6px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .sections {
+    display: grid;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .section-card {
+    padding: 28px;
+  }
+
+  .section-card h3 {
+    margin: 0 0 10px;
+    font: 700 24px/1.1 "Trebuchet MS", "Gill Sans", sans-serif;
+  }
+
+  .section-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .checklist,
+  .meta-list {
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+
+  .checklist li,
+  .meta-list li {
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .checklist li::before,
+  .meta-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-50%);
+  }
+
+  .workflow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .step {
+    padding: 18px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(23, 35, 47, 0.08);
+  }
+
+  .step strong {
+    display: block;
+    margin-bottom: 10px;
+    font: 700 13px/1.1 "Trebuchet MS", "Gill Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+
+  .step p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .meta-panel {
+    padding: 18px 20px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(241, 235, 220, 0.76));
+    border: 1px solid rgba(23, 35, 47, 0.08);
+  }
+
+  .meta-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  code {
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+
+  footer {
+    margin-top: 28px;
+    padding: 22px 26px;
+  }
+
+  .footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
+  }
+
+  .footer-row p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .hero,
+    .grid,
+    .workflow,
+    .meta-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero h2 {
+      max-width: 12ch;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page {
+      padding: 20px 14px 40px;
+    }
+
+    .topbar,
+    .footer-row {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .hero-copy,
+    .hero-panel,
+    .section-card,
+    footer {
+      padding: 22px;
+    }
+  }
+</style>
 </head>
 <body>
-Redirecting...
+<div class="page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">M</div>
+      <div>
+        <h1>MOKOM Creator Tools</h1>
+        <p>Official web app overview for TikTok login and content publishing</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#workflow">Workflow</a>
+      <a href="/privacy.html/">Privacy</a>
+      <a href="/terms.html/">Terms</a>
+      <a href="/callback/">Callback</a>
+    </nav>
+  </header>
+
+  <main class="sections">
+    <section class="hero">
+      <article class="card hero-copy">
+        <span class="eyebrow">Web App For Creators And Agencies</span>
+        <h2>Schedule, upload, and publish TikTok videos from one control room.</h2>
+        <p>
+          MOKOM Creator Tools is a web app for creators and agencies in Southeast Asia.
+          The platform uses TikTok Login Kit for account authorization and TikTok Content
+          Posting API for video upload and direct publishing.
+        </p>
+        <div class="cta-row">
+          <a class="button" href="/callback/">View callback URL</a>
+          <a class="ghost" href="/terms.html/">Review terms</a>
+          <a class="ghost" href="/privacy.html/">Review privacy policy</a>
+        </div>
+      </article>
+
+      <aside class="card hero-panel">
+        <span class="status-pill">TikTok integration configured</span>
+        <div class="metric-grid">
+          <section class="metric">
+            <p class="metric-label">Login</p>
+            <strong>TikTok Login Kit</strong>
+            <span>Users authorize access and are returned to the verified callback URL.</span>
+          </section>
+          <section class="metric">
+            <p class="metric-label">Publishing</p>
+            <strong>Direct Post</strong>
+            <span>Local video files are uploaded first, then published to the user's TikTok account.</span>
+          </section>
+          <section class="metric">
+            <p class="metric-label">Scopes</p>
+            <strong><code>user.info.basic</code></strong>
+            <span><code>video.upload</code> and <code>video.publish</code> are used for content posting.</span>
+          </section>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid">
+      <article class="card section-card">
+        <h3>What the app does</h3>
+        <p>
+          The web app is designed for creator teams that need a clean publishing workflow
+          instead of switching between multiple TikTok accounts and manual upload steps.
+        </p>
+        <ul class="checklist">
+          <li>Sign in with TikTok and authorize only the required scopes.</li>
+          <li>Upload local video files before publishing.</li>
+          <li>Publish directly to the authorized TikTok profile.</li>
+        </ul>
+      </article>
+
+      <article class="card section-card">
+        <h3>Review context</h3>
+        <p>
+          This website is the official public-facing URL for the MOKOM Creator Tools
+          web integration submitted for TikTok review.
+        </p>
+        <ul class="meta-list">
+          <li>Website URL: <code>https://mk-francis.github.io/</code></li>
+          <li>Redirect URI: <code>https://mk-francis.github.io/callback/</code></li>
+          <li>Company contact: <code>mokom@bigmk.com</code></li>
+        </ul>
+      </article>
+
+      <article class="card section-card">
+        <h3>Public policies</h3>
+        <p>
+          The official terms and privacy policy for this integration are published at the
+          following verified URLs.
+        </p>
+        <ul class="meta-list">
+          <li><a href="/terms.html/">Terms of Service</a></li>
+          <li><a href="/privacy.html/">Privacy Policy</a></li>
+          <li><a href="/callback/">Verified callback page</a></li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="workflow" class="card section-card">
+      <h3>Publishing workflow</h3>
+      <p>
+        The current integration uses TikTok Login Kit and Content Posting API Direct Post.
+        The website URL and callback URL below match the configuration submitted in TikTok
+        Developer Portal.
+      </p>
+      <div class="workflow">
+        <div class="step">
+          <strong>Step 1</strong>
+          <p>The user starts sign-in from the MOKOM web app and authorizes TikTok access.</p>
+        </div>
+        <div class="step">
+          <strong>Step 2</strong>
+          <p>TikTok redirects the user to the verified callback URL on this domain.</p>
+        </div>
+        <div class="step">
+          <strong>Step 3</strong>
+          <p>The user selects a local video file for upload through the publishing flow.</p>
+        </div>
+        <div class="step">
+          <strong>Step 4</strong>
+          <p>The app submits the upload and publish actions to TikTok for direct posting.</p>
+        </div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta-panel">
+          <span class="meta-label">Website URL</span>
+          <code>https://mk-francis.github.io/</code>
+        </div>
+        <div class="meta-panel">
+          <span class="meta-label">Redirect URI</span>
+          <code>https://mk-francis.github.io/callback/</code>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="card">
+    <div class="footer-row">
+      <p>&copy; 2026 BIGMK ECOMMERCE INC. MOKOM Creator Tools.</p>
+      <p>For review and policy questions: <a href="mailto:mokom@bigmk.com">mokom@bigmk.com</a></p>
+    </div>
+  </footer>
+</div>
 </body>
 </html>
