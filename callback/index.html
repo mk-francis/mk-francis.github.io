@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Login Callback</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f6f4ee;
+    --panel: #fffdf8;
+    --text: #1e1d1a;
+    --muted: #6e675c;
+    --border: #d8d1c4;
+    --accent: #c04b2f;
+  }
+
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    background: linear-gradient(180deg, #efe7d8 0%, var(--bg) 100%);
+    color: var(--text);
+  }
+
+  main {
+    max-width: 760px;
+    margin: 48px auto;
+    padding: 0 20px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(45, 33, 11, 0.08);
+    padding: 28px;
+  }
+
+  h1 {
+    margin: 0 0 12px;
+    font-size: 32px;
+    line-height: 1.1;
+  }
+
+  p {
+    margin: 0 0 16px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .status {
+    margin: 18px 0 24px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--accent);
+    background: #fbf2ee;
+    color: var(--text);
+  }
+
+  dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(120px, 180px) 1fr;
+    gap: 10px 16px;
+  }
+
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  code {
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+  }
+  @media (max-width: 640px) {
+    dl {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<main>
+  <section class="card">
+    <h1>TikTok Login Callback</h1>
+    <p>This page confirms that the authorization redirect landed on a valid callback URL.</p>
+    <div class="status" id="status">Waiting for callback parameters...</div>
+    <dl id="details"></dl>
+  </section>
+</main>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const statusNode = document.getElementById("status");
+  const detailsNode = document.getElementById("details");
+  const entries = Array.from(params.entries());
+
+  if (entries.length === 0) {
+    statusNode.textContent = "Callback page is online. No query parameters were provided.";
+  } else if (params.has("error")) {
+    statusNode.textContent = "TikTok returned an error to this callback URL.";
+  } else if (params.has("code")) {
+    statusNode.textContent = "TikTok authorization code received. You can close this window.";
+  } else {
+    statusNode.textContent = "Callback loaded with query parameters.";
+  }
+
+  entries.forEach(([key, value]) => {
+    const term = document.createElement("dt");
+    term.textContent = key;
+    const description = document.createElement("dd");
+    const code = document.createElement("code");
+    code.textContent = value;
+    description.appendChild(code);
+    detailsNode.appendChild(term);
+    detailsNode.appendChild(description);
+  });
+
+  if (window.opener && entries.length > 0) {
+    window.opener.postMessage(
+      {
+        source: "mokom-tiktok-callback",
+        params: Object.fromEntries(entries)
+      },
+      "*"
+    );
+  }
+</script>
+</body>
+</html>
